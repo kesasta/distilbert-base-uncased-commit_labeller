@@ -5,7 +5,7 @@ tags: []
 
 # Model Card for Model ID
 
-<!-- Provide a quick summary of what the model is/does. -->
+<!-- This is a distilbert model for commit labelling -->
 
 
 
@@ -13,15 +13,15 @@ tags: []
 
 ### Model Description
 
-<!-- Provide a longer summary of what this model is. -->
+<!-- This model is fine-tuned on commit data for categorizing deep learning commit activities. -->
 
 This is the model card of a 🤗 transformers model that has been pushed on the Hub. This model card has been automatically generated.
 
-- **Developed by:** [More Information Needed]
+- **Developed by:** [Adekunle]
 - **Funded by [optional]:** [More Information Needed]
 - **Shared by [optional]:** [More Information Needed]
-- **Model type:** [More Information Needed]
-- **Language(s) (NLP):** [More Information Needed]
+- **Model type:** [Distilbert]
+- **Language(s) (NLP):** [English]
 - **License:** [More Information Needed]
 - **Finetuned from model [optional]:** [More Information Needed]
 
