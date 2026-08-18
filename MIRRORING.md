@@ -63,10 +63,12 @@ The sync job:
 6. atomically advances both GitHub branches, then reads the remote refs back.
 
 A merge conflict, missing/corrupt LFS object, source history rewrite, concurrent
-push, or failed upload stops the job. The script never force-pushes and never
-pushes in the reverse direction. Once the workflow is installed, failed
-scheduled runs are visible in Actions and use GitHub's normal workflow-failure
-notifications.
+push, failed upload, or an upstream change under `.github/workflows/` stops the
+job. The last check prevents a non-GitHub source from silently installing
+executable GitHub automation. The script never force-pushes and configures the
+Hugging Face remote as fetch-only, so it cannot push in the reverse direction.
+Once the workflow is installed, failed scheduled runs are visible in Actions
+and use GitHub's normal workflow-failure notifications.
 
 ## Large model artifact
 

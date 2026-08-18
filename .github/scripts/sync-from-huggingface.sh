@@ -32,6 +32,8 @@ if git remote get-url "$HF_REMOTE" >/dev/null 2>&1; then
 else
   git remote add "$HF_REMOTE" "$HF_REPOSITORY"
 fi
+# Make the chosen direction explicit even in a maintainer's local checkout.
+git remote set-url --push "$HF_REMOTE" no_push
 
 # Fetch only the branch being mirrored. LFS smudging is disabled; objects are
 # transferred explicitly after the Git histories have passed the safety checks.
@@ -64,6 +66,18 @@ if [[ -n "$old_sha" ]] &&
    ! git merge-base --is-ancestor "$old_sha" "$upstream_sha"; then
   die "Hugging Face ${HF_BRANCH} was rewritten (${old_sha} -> ${upstream_sha}); refusing to force-push"
 fi
+
+# Do not let a non-GitHub source silently install executable GitHub Actions.
+# Such a change needs explicit review and a workflow-authorized credential.
+if [[ -n "$old_sha" ]]; then
+  workflow_paths="$(git diff --name-only "${old_sha}..${upstream_sha}" -- \
+    '.github/workflows' || true)"
+else
+  workflow_paths="$(git ls-tree -r --name-only "$upstream_sha" -- \
+    '.github/workflows' || true)"
+fi
+[[ -z "$workflow_paths" ]] ||
+  die "upstream changed .github/workflows; review and import that change manually"
 
 already_integrated=false
 if git merge-base --is-ancestor "$upstream_sha" HEAD; then
